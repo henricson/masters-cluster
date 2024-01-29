@@ -1,0 +1,11 @@
+---
+swap_file_state: absent
+
+containerd_config_default_write: true
+containerd_config_cgroup_driver_systemd: true
+
+kubernetes_config_kubelet_configuration:
+  cgroupDriver: systemd
+
+kubernetes_version: 1.29
+kubernetes_allow_pods_on_master: false
