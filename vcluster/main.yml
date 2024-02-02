@@ -1,0 +1,32 @@
+---
+- name: Install vCluster
+  become: true
+  hosts: kube1
+
+  pre_tasks:
+    - name: Download vcluster binary
+      ansible.builtin.get_url:
+        url: "https://github.com/loft-sh/vcluster/releases/latest/download/vcluster-linux-amd64"
+        dest: "/tmp/vcluster"
+        mode: "0755"
+
+    - name: Install vcluster
+      ansible.builtin.copy:
+        src: "/tmp/vcluster"
+        dest: "/usr/local/bin/vcluster"
+        mode: "0755"
+        remote_src: yes
+
+    - name: Remove downloaded vcluster binary
+      ansible.builtin.file:
+        path: "/tmp/vcluster"
+        state: absent
+
+  tasks:
+    - name: Create a my-virtual-cluster
+      ansible.builtin.command:
+        cmd: vcluster create my-vcluster
+
+    - name: Create a your-virtual-cluster
+      ansible.builtin.command:
+        cmd: vcluster create your-vcluster

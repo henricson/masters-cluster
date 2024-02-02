@@ -37,7 +37,37 @@
         update_cache: yes
         cache_valid_time: 3600 # Cache validity in seconds, optional
 
+    - name: Install python3-pip
+      ansible.builtin.apt:
+        name: python3-pip
+        state: present
+      tags:
+        - manifests
+
+    - name: install pre-requisites
+      pip:
+        name:
+          - openshift
+          - pyyaml
+          - kubernetes
+      tags:
+        - manifests
+
   roles:
     - geerlingguy.swap
     - geerlingguy.containerd
     - geerlingguy.kubernetes
+
+  tasks:
+    - name: Create local-storage StorageClass
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: storage.k8s.io/v1
+          kind: StorageClass
+          metadata:
+            name: local-storage
+          provisioner: kubernetes.io/no-provisioner
+          volumeBindingMode: WaitForFirstConsumer
+      tags:
+        - manifests

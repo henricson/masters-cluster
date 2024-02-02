@@ -1,6 +1,5 @@
 ---
 roles:
-  - name: geerlingguy.security
   - name: geerlingguy.swap
   - name: geerlingguy.containerd
   - name: geerlingguy.kubernetes
