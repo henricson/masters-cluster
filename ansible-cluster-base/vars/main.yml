@@ -8,4 +8,4 @@ kubernetes_config_kubelet_configuration:
   cgroupDriver: systemd
 
 kubernetes_version: 1.29
-kubernetes_allow_pods_on_master: false
+kubernetes_allow_pods_on_master: true

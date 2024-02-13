@@ -25,8 +25,4 @@
   tasks:
     - name: Create a my-virtual-cluster
       ansible.builtin.command:
-        cmd: vcluster create my-vcluster
-
-    - name: Create a your-virtual-cluster
-      ansible.builtin.command:
-        cmd: vcluster create your-vcluster
+        cmd: vcluster create test

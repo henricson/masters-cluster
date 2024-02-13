@@ -1,0 +1,33 @@
+---
+- hosts: kube1
+  become: true
+
+  tasks:
+    - name: Create Rook CRDs
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/crds.yaml') }}"
+        wait: true
+    - name: Deploy Rook common manifests
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/common.yaml') }}"
+        wait: true
+    - name: Deploy Rook operator
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/operator.yaml') }}"
+        wait: true
+    - name: Create Ceph cluster
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/cluster.yaml') }}"
+    - name: Create filesystem for Ceph
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/filesystem.yaml') }}"
+    - name: Create Storageclass
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/storageclass.yaml') }}"
+
