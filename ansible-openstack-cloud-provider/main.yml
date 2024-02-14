@@ -1,0 +1,21 @@
+---
+- hosts: kube1
+  become: true
+
+  tasks:
+    - name: Create Openstack Cloud Provider secret
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/cloud-secret.yml') }}"
+    - name: Create Openstack Cloud Provider roles
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/cloud-controller-manager-roles.yml') }}"
+    - name: Create Openstack Cloud Provider role bindings
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/cloud-controller-manager-role-bindings.yml') }}"
+    - name: Create Openstack Cloud Provider controller
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/openstack-controller-manager-ds.yml') }}"

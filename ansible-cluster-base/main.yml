@@ -29,6 +29,14 @@
         state: present
         reload: yes
 
+    - name: Enable IPv6 forwarding
+      sysctl:
+        name: net.ipv6.ip_forward
+        value: "1"
+        sysctl_set: yes
+        state: present
+        reload: yes
+
     - name: Apply sysctl parameters from /etc/sysctl.conf
       command: sysctl -p /etc/sysctl.conf
 

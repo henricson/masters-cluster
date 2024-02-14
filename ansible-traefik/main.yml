@@ -1,0 +1,29 @@
+---
+- hosts: kube1
+  become: true
+
+  tasks:
+    - name: Create Traefik account
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/00-account.yml') }}"
+        wait: true
+    - name: Create Traefik role
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/00-role.yml') }}"
+        wait: true
+    - name: Create Traefik role binding
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/01-role-binding.yml') }}"
+        wait: true
+    - name: Create Traefik deployment
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/02-traefik.yml') }}"
+    - name: Create Traefik services
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/02-traefik-services.yml') }}"
+
