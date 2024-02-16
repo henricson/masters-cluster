@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer-nf-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer-nf
+  template:
+    metadata:
+      labels:
+        app: producer-nf
+    spec:
+      containers:
+        - name: producer-nf
+          image: producer-nf:latest
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: producer-nf-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 5000
+  selector:
+    app: producer-nf

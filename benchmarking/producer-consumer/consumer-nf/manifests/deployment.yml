@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-nf-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer-nf
+  template:
+    metadata:
+      labels:
+        app: consumer-nf
+    spec:
+      containers:
+        - name: consumer-nf
+          image: consumer-nf:latest
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: consumer-nf-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 5000
+  selector:
+    app: producer-nf
