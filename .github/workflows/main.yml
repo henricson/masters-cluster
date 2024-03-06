@@ -15,10 +15,10 @@ jobs:
       matrix:
         include:
           - dockerfile: Dockerfile
-            context: ./benchmarks/vcluster-rtt/amf
+            context: /benchmarks/vcluster-rtt/amf
             image_name: amf
           - dockerfile: Dockerfile
-            context: ./benchmarks/vcluster-rtt/gnb
+            context: /benchmarks/vcluster-rtt/gnb
             image_name: gnb
 
     steps:
