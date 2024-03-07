@@ -11,7 +11,7 @@ COPY . .
 RUN pip install --no-cache-dir Flask
 
 # Make port 5000 available to the world outside this container
-EXPOSE 80
+EXPOSE 5000
 
 # Define environment variable to silence Flask server warning
 ENV FLASK_ENV=development
