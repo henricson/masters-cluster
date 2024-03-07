@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: gnb
-          image: ghcr.io/henricson/gnb:v0.0.8
+          image: ghcr.io/henricson/gnb:v0.0.9
       imagePullSecrets:
         - name: github-actions
 
@@ -42,6 +42,6 @@ spec:
     spec:
       containers:
         - name: gnb
-          image: ghcr.io/henricson/amf:v0.0.8
+          image: ghcr.io/henricson/amf:v0.0.9
       imagePullSecrets:
         - name: github-actions
