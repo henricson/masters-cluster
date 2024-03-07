@@ -2,7 +2,7 @@ import requests
 import datetime
 
 # The URL you are sending the POST request to
-url = "https://your-target-url.com/path"
+url = "http://amf-service.default.svc.cluster.local"
 
 # The data you want to send in the POST request
 data = {
