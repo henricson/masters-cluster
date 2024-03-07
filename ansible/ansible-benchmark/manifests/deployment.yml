@@ -18,6 +18,30 @@ spec:
     spec:
       containers:
         - name: gnb
-          image: ghcr.io/henricson/amf:v0.0.1
+          image: ghcr.io/henricson/gnb:v0.0.2
+      imagePullSecrets:
+        - name: github-actions
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: amf-deployment
+  namespace: default
+  labels:
+    app: amf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: amf
+  template:
+    metadata:
+      labels:
+        app: amf
+    spec:
+      containers:
+        - name: gnb
+          image: ghcr.io/henricson/amf:v0.0.2
       imagePullSecrets:
         - name: github-actions

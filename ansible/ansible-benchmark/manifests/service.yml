@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gnb-service
+  namespace: default
+spec:
+  selector:
+    app: gnb
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: amf-service
+  namespace: default
+spec:
+  selector:
+    app: amf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
