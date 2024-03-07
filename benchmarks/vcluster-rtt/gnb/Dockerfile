@@ -5,16 +5,16 @@ FROM python:3.9-slim
 WORKDIR /usr/src/app
 
 # Copy the current directory contents into the container at /usr/src/app
-COPY . .
+COPY ../amf .
 
-# Install Flask
-RUN pip install --no-cache-dir Flask
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir requests
 
-# Make port 5000 available to the world outside this container
+# Make port 80 available to the world outside this container
 EXPOSE 80
 
-# Define environment variable to silence Flask server warning
-ENV FLASK_ENV=development
+# Define environment variable
+ENV NAME World
 
-# Run app.py when the container launches
-CMD ["flask", "run", "--host=0.0.0.0"]
+# Run client.py when the container launches
+CMD ["python", "./main.py"]

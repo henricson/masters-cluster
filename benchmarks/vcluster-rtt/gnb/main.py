@@ -1,23 +1,24 @@
-from flask import Flask, request, jsonify
+import requests
 import datetime
 
-app = Flask(__name__)
+# The URL you are sending the POST request to
+url = "http://amf-service.default.svc.cluster.local"
 
-@app.route('/path', methods=['POST'])
-def handle_post():
-    # Get data sent with POST request
-    data = request.json
+# The data you want to send in the POST request
+data = {
+    "key": "value"
+}
 
-    # Log the current time and the received data
-    print(f"Received at: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"Data received: {data}")
+# Record the start time and date
+start_time = datetime.datetime.now()
 
-    # Respond with a JSON object
-    response = {
-        'message': 'POST request processed successfully!',
-        'yourData': data
-    }
-    return jsonify(response), 200
+print(f"Request started at: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
 
-if __name__ == '__main__':
-    app.run(debug=True, port=80)
+# Send the POST request
+response = requests.post(url, data=data)
+
+# Calculate the response time
+end_time = datetime.datetime.now()
+response_time = end_time - start_time
+
+# Print the response time and the response status code
