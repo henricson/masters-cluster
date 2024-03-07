@@ -1,0 +1,11 @@
+---
+- hosts: kube1
+  become: true
+
+  tasks:
+    - name: Create gNB deployment
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/deployment.yml') }}"
+        wait: true
+

@@ -1,0 +1,23 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: gnb-deployment
+  namespace: default
+  labels:
+    app: gnb
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gnb
+  template:
+    metadata:
+      labels:
+        app: gnb
+    spec:
+      containers:
+        - name: gnb
+          image: ghcr.io/henricson/amf:v0.0.1
+      imagePullSecrets:
+        - name: github-actions
