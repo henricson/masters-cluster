@@ -11,13 +11,18 @@ while True:
         "key": "value"
     }
 
+    headers={
+        'Content-type':'application/json',
+        'Accept':'application/json'
+    }
+
     # Record the start time and date
     start_time = datetime.datetime.now()
 
     print(f"Request started at: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
 
     # Send the POST request
-    response = requests.post(url, data=data)
+    response = requests.post(url, json=data, headers=headers)
 
     # Calculate the response time
     end_time = datetime.datetime.now()
