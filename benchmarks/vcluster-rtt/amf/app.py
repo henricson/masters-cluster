@@ -9,8 +9,8 @@ def handle_post():
     data = request.json
 
     # Log the current time and the received data
-    print(f"Received at: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"Data received: {data}")
+    app.logger.info(f"Received at: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    app.logger.info(f"Data received: {data}")
 
     # Respond with a JSON object
     response = {
