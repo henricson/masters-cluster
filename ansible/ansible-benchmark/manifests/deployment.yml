@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: gnb
-          image: ghcr.io/henricson/gnb:v0.0.9
+          image: ghcr.io/henricson/gnb:v0.0.10
       imagePullSecrets:
         - name: github-actions
 
@@ -42,8 +42,9 @@ spec:
     spec:
       containers:
         - name: gnb
-          image: ghcr.io/henricson/amf:v0.0.9
+
+          image: ghcr.io/henricson/amf:v0.0.10
           ports:
-            - containerPort: 5000
+            - containerPort: 80
       imagePullSecrets:
         - name: github-actions
