@@ -23,6 +23,29 @@
         state: absent
 
   tasks:
-    - name: Create a my-virtual-cluster
-      ansible.builtin.command:
-        cmd: vcluster create test
+    - name: Create a my-virtual-cluster and log output
+      ansible.builtin.shell: "vcluster create test > /tmp/vcluster_output.log 2>&1"
+      async: 3600 # Adjust as needed, this is the maximum runtime in seconds
+      poll: 0
+      register: async_result
+
+    - name: Touch the log file to ensure its existence
+      ansible.builtin.file:
+        path: /tmp/vcluster_output.log
+        state: touch
+
+    - name: Wait for the output to contain a specific string
+      ansible.builtin.shell: "grep 'Forwarding from' /tmp/vcluster_output.log"
+      register: grep_result
+      until: grep_result.rc == 0
+      retries: 30 # Number of retries
+      delay: 10 # Delay in seconds between retries
+      ignore_errors: yes
+      
+    - name: Get list of pods
+      ansible.builtin.command: kubectl get ns
+      register: pods_output
+
+    - name: Print the output
+      ansible.builtin.debug:
+        msg: "{{ pods_output.stdout_lines }}"
