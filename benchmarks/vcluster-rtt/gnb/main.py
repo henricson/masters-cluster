@@ -4,7 +4,7 @@ import time
 
 while True:
     # The URL you are sending the POST request to
-    url = "http://amf-service.default.svc.cluster.local:5000/path"
+    url = "http://amf-service.default.svc.cluster.local:80/path"
 
     # The data you want to send in the POST request
     data = {
