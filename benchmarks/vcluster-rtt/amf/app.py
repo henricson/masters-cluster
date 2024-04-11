@@ -35,7 +35,7 @@ def measure_requests(urls, repetitions=5):
     print(f"Standard deviation of total time: {std_dev_time:.2f} ms")
 
 # List of URLs to request
-urls = ["https://nrf.svc.cluster.local:80"]  # Sequencially call these
+urls = ["http://nrf.svc.cluster.local:80"]  # Sequencially call these
 
 
 # Adjust the number of repetitions as needed
