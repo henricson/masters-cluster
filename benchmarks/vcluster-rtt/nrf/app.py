@@ -4,6 +4,7 @@ import socketserver
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
+        print("Received GET request")
         # Send response status code
         self.send_response(200)
         # End headers
