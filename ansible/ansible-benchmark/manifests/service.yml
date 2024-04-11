@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gnb-service
+  name: amf-service
   namespace: default
 spec:
   selector:
-    app: gnb
+    app: amf
   ports:
     - protocol: TCP
       port: 80
@@ -14,11 +14,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: amf-service
+  name: nrf-service
   namespace: default
 spec:
   selector:
-    app: amf
+    app: nrf
   ports:
     - protocol: TCP
       port: 80

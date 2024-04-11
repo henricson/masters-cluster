@@ -4,19 +4,7 @@ import threading
 from queue import Queue, Empty
 from concurrent.futures import ThreadPoolExecutor
 
-urls = ["http://nrf.svc.cluster.default/discover/ausf",
-        "http://ausf.svc.cluster.default/ue-authentication-info",
-        "http://ausf.svc.cluster.default/ue-aka-confirmation",
-        "http://nrf.svc.cluster.default/discover/udm",
-        "http://udm.svc.cluster.default/slice-selection",
-        "http://udm.svc.cluster.default/am-subscription",
-        "http://udm.svc.cluster.default/sm-subscription",
-        "http://udm.svc.cluster.default/sdm-subscription",
-        "http://nrf.svc.cluster.default/discover/pcf",
-        "http://pcf.svc.cluster.default/am-policy-control",
-        "http://smf.svc.cluster.default/create-sm-context",
-        "http://smf.svc.cluster.default/update-sm-context",
-        ]  # Sequencially call these
+urls = ["https://nrf.svc.cluster.local:80"]  # Sequencially call these
 
 requests_per_minute = 120
 total_requests = 120

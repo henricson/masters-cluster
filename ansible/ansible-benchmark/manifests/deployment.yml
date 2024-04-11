@@ -1,31 +1,6 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: gnb-deployment
-  namespace: default
-  labels:
-    app: gnb
-
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: gnb
-  template:
-    metadata:
-      labels:
-        app: gnb
-    spec:
-      containers:
-        - name: gnb
-          image: ghcr.io/henricson/gnb:v0.0.17
-      imagePullSecrets:
-        - name: github-actions
-
----
-kind: Deployment
-apiVersion: apps/v1
-metadata:
   name: amf-deployment
   namespace: default
   labels:
@@ -43,7 +18,33 @@ spec:
       containers:
         - name: gnb
 
-          image: ghcr.io/henricson/amf:v0.0.17
+          image: ghcr.io/henricson/amf:v0.0.18
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nrf-deployment
+  namespace: default
+  labels:
+    app: nrf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nrf
+  template:
+    metadata:
+      labels:
+        app: nrf
+    spec:
+      containers:
+        - name: nrf
+          image: ghcr.io/henricson/nrf:v0.0.18
           ports:
             - containerPort: 80
       imagePullSecrets:

@@ -16,6 +16,9 @@ jobs:
           - dockerfile: Dockerfile
             context: benchmarks/vcluster-rtt/amf
             image_name: amf
+          - dockerfile: Dockerfile
+            context: benchmarks/vcluster-rtt/nrf
+            image_name: nrf
 
     steps:
       - name: Checkout code
