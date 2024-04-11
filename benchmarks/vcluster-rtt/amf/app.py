@@ -6,6 +6,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 urls = ["https://nrf.svc.cluster.local:80"]  # Sequencially call these
 
+print(urls)
+
 requests_per_minute = 120
 total_requests = 120
 output_file = "response_times.txt"
@@ -20,7 +22,7 @@ def make_request(url):
     response = requests.get(url)
     end_time = time.time()
     time_taken = end_time - start_time
-    print(f"Requested {url}, Status Code: {response.status_code}, Time Taken: {time_taken}")
+    print(f"Requested {url}, Status Code: {response.status_code}, Time Taken: {time_taken}", flush=True)
     response_times_queue.put(time_taken)
 
 def worker():
