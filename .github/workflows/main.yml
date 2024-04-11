@@ -16,9 +16,6 @@ jobs:
           - dockerfile: Dockerfile
             context: benchmarks/vcluster-rtt/amf
             image_name: amf
-          - dockerfile: Dockerfile
-            context: benchmarks/vcluster-rtt/gnb
-            image_name: gnb
 
     steps:
       - name: Checkout code
