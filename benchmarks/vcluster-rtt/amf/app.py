@@ -1,70 +1,42 @@
 import requests
 import time
-import threading
-from queue import Queue, Empty
-from concurrent.futures import ThreadPoolExecutor
+import numpy as np
 
+def measure_request_time(url):
+    start_time = time.time()
+    try:
+        response = requests.get(url)
+        print(f"Requested {url}, Status Code: {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Error requesting {url}: {e}")
+    end_time = time.time()
+    return (end_time - start_time) * 1000  # Return time in milliseconds
+
+def measure_requests(urls, repetitions=5):
+    all_times = []  # Store total times for each repetition
+
+    for i in range(repetitions):
+        print(f"\nIteration {i+1}/{repetitions}")
+        iteration_times = []
+
+        for url in urls:
+            time_taken = measure_request_time(url)
+            iteration_times.append(time_taken)
+            print(f"Time taken: {time_taken:.2f} ms")
+
+        total_time = sum(iteration_times)
+        all_times.append(total_time)
+        print(f"Total time for iteration {i+1}: {total_time:.2f} ms")
+
+    # Calculate and print the mean and standard deviation of all total times
+    mean_time = np.mean(all_times)
+    std_dev_time = np.std(all_times)
+    print(f"\nMean total time: {mean_time:.2f} ms")
+    print(f"Standard deviation of total time: {std_dev_time:.2f} ms")
+
+# List of URLs to request
 urls = ["https://nrf.svc.cluster.local:80"]  # Sequencially call these
 
-print(urls)
 
-requests_per_minute = 120
-total_requests = 120
-output_file = "response_times.txt"
-
-# Queue for storing URLs to be requested
-request_queue = Queue()
-# Queue for storing response times
-response_times_queue = Queue()
-
-def make_request(url):
-    start_time = time.time()
-    response = requests.get(url)
-    end_time = time.time()
-    time_taken = end_time - start_time
-    print(f"Requested {url}, Status Code: {response.status_code}, Time Taken: {time_taken}", flush=True)
-    response_times_queue.put(time_taken)
-
-def worker():
-    while True:
-        try:
-            url = request_queue.get_nowait()
-            make_request(url)
-            request_queue.task_done()
-        except Empty:
-            break
-
-def write_to_file(output_file):
-    with open(output_file, "a") as file:
-        while True:
-            time_taken = response_times_queue.get()
-            if time_taken is None:  # None is our signal to stop the thread
-                break
-            file.write(f"{time_taken}\n")
-            response_times_queue.task_done()
-
-# Load the request queue
-for _ in range(total_requests):
-    for url in urls:
-        request_queue.put(url)
-
-# Number of threads in the pool depends on your machine and network capabilities
-num_threads = 10  # Adjust based on your requirements and capabilities
-
-# Start the file writing thread
-file_writer_thread = threading.Thread(target=write_to_file, args=(output_file,), daemon=True)
-file_writer_thread.start()
-
-# Start worker threads
-with ThreadPoolExecutor(max_workers=num_threads) as executor:
-    for _ in range(num_threads):
-        executor.submit(worker)
-
-# Wait for all items in the request queue to be processed
-request_queue.join()
-
-# Signal the file writer thread to stop
-response_times_queue.put(None)
-file_writer_thread.join()  # Wait for the file writer thread to finish
-
-print("All requests made and response times stored.")
+# Adjust the number of repetitions as needed
+measure_requests(urls, repetitions=100)
