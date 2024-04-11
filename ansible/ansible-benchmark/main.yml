@@ -3,16 +3,13 @@
   become: true
 
   tasks:
-    - name: Create gNB deployment
+    - name: Create AMF, NRF deployment
       kubernetes.core.k8s:
         state: present
         definition: "{{ lookup('file', 'manifests/deployment.yml') }}"
         wait: false
-    - name: Create gNB service
+    - name: Create AMF, NRF service
       kubernetes.core.k8s:
         state: present
         definition: "{{ lookup('file', 'manifests/service.yml') }}"
         wait: true
-
-
-
