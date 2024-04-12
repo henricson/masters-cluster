@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Install Flask
-RUN pip install --no-cache-dir requests numpy
+RUN pip install --no-cache-dir requests numpy scipy
 
 # Make port 5000 available to the world outside this container
 EXPOSE 80

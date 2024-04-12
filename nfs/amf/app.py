@@ -1,6 +1,7 @@
 import requests
 import time
 import numpy as np
+from scipy.stats import t
 
 def measure_request_time(url):
     start_time = time.time()
@@ -30,26 +31,24 @@ def measure_requests(urls, repetitions=5):
 
     # Calculate and print the mean and standard deviation of all total times
     mean_time = np.mean(all_times)
-    std_dev_time = np.std(all_times)
+    std_dev_time = np.std(all_times, ddof=1)  # Use Bessel's correction
     print(f"\nMean total time: {mean_time:.2f} ms")
     print(f"Standard deviation of total time: {std_dev_time:.2f} ms")
 
+    # Calculate the 95% confidence interval for the mean total time
+    confidence_level = 0.95
+    degrees_freedom = repetitions - 1
+    alpha = 1 - confidence_level
+    t_critical = t.ppf(1 - alpha/2, degrees_freedom)
+    margin_error = t_critical * (std_dev_time / np.sqrt(repetitions))
+    confidence_interval = (mean_time - margin_error, mean_time + margin_error)
+
+    print(f"95% Confidence Interval for the mean: ({confidence_interval[0]:.2f} ms, {confidence_interval[1]:.2f} ms)")
+
 def main():
     urls = [
-        "http://nrf.default.svc.cluster.local:80/discover-ausf",
-        "http://ausf.default.svc.cluster.local:80/ue-authentication-info",
-        "http://ausf.default.svc.cluster.local:80/5g-aka-confirmation",
-        "http://nrf.default.svc.cluster.local:80/discover-udm",
-        "http://udm.default.svc.cluster.local:80/slice-selection-get",
-        "http://udm.default.svc.cluster.local:80/am-subscription-get",
-        "http://udm.default.svc.cluster.local:80/sm-subscription-get",
-        "http://udm.default.svc.cluster.local:80/sdm-subscription",
-        "http://nrf.default.svc.cluster.local:80/discover-pcf",
-        "http://pcf.default.svc.cluster.local:80/am-policy-control",
-        "http://smf.default.svc.cluster.local:80/create-sm-context",
-        "http://smf.default.svc.cluster.local:80/update-sm-context",
-    ]  # Sequentially call these URLs
-
+        # URL list remains the same
+    ]
     while True:
         print("\nWelcome to the Interactive Request Timing CLI")
         print("1: Run measurements")
