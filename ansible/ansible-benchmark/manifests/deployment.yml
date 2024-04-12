@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: amf
-          image: ghcr.io/henricson/amf:v0.0.27
+          image: ghcr.io/henricson/amf:v0.0.28
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
         - name: nrf
-          image: ghcr.io/henricson/nrf:v0.0.27
+          image: ghcr.io/henricson/nrf:v0.0.28
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -69,7 +69,7 @@ spec:
     spec:
       containers:
         - name: ausf
-          image: ghcr.io/henricson/ausf:v0.0.27
+          image: ghcr.io/henricson/ausf:v0.0.28
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -95,7 +95,7 @@ spec:
     spec:
       containers:
         - name: pcf
-          image: ghcr.io/henricson/pcf:v0.0.27
+          image: ghcr.io/henricson/pcf:v0.0.28
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -121,7 +121,7 @@ spec:
     spec:
       containers:
         - name: smf
-          image: ghcr.io/henricson/smf:v0.0.27
+          image: ghcr.io/henricson/smf:v0.0.28
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -147,7 +147,7 @@ spec:
     spec:
       containers:
         - name: udm
-          image: ghcr.io/henricson/udm:v0.0.27
+          image: ghcr.io/henricson/udm:v0.0.28
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -173,7 +173,7 @@ spec:
     spec:
       containers:
         - name: upf
-          image: ghcr.io/henricson/upf:v0.0.27
+          image: ghcr.io/henricson/upf:v0.0.28
           ports:
             - containerPort: 80
       imagePullSecrets:

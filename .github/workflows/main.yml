@@ -14,25 +14,25 @@ jobs:
       matrix:
         include:
           - dockerfile: Dockerfile
-            context: benchmarks/vcluster-rtt/amf
+            context: nfs/amf
             image_name: amf
           - dockerfile: Dockerfile
-            context: benchmarks/vcluster-rtt/nrf
+            context: nfs/nrf
             image_name: nrf
           - dockerfile: Dockerfile
-            context: benchmarks/vcluster-rtt/ausf
+            context: nfs/ausf
             image_name: ausf
           - dockerfile: Dockerfile
-            context: benchmarks/vcluster-rtt/pcf
+            context: nfs/pcf
             image_name: pcf
           - dockerfile: Dockerfile
-            context: benchmarks/vcluster-rtt/smf
+            context: nfs/smf
             image_name: smf
           - dockerfile: Dockerfile
-            context: benchmarks/vcluster-rtt/udm
+            context: nfs/udm
             image_name: udm
           - dockerfile: Dockerfile
-            context: benchmarks/vcluster-rtt/upf
+            context: nfs/upf
             image_name: upf
 
     steps:
