@@ -9,11 +9,11 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         print(f"Request path: {path}")
 
         # Depending on the path, the behavior changes
-        if path == '/discover_ausf':
+        if path == '/discover-ausf':
             self.handle_discover_ausf()
-        elif path == '/discover_udm':
+        elif path == '/discover-udm':
             self.handle_discover_udm()
-        elif path == '/discover_pcf':
+        elif path == '/discover-pcf':
             self.handle_discover_pcf()
         else:
             # Default handling for other paths

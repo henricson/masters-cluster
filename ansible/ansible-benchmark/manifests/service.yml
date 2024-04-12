@@ -23,3 +23,71 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: udm
+  namespace: default
+spec:
+  selector:
+    app: udm
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: upf
+  namespace: default
+spec:
+  selector:
+    app: upf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pcf
+  namespace: default
+spec:
+  selector:
+    app: pcf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smf
+  namespace: default
+spec:
+  selector:
+    app: smf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ausf
+  namespace: default
+spec:
+  selector:
+    app: ausf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

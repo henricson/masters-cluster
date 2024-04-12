@@ -1,7 +1,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: amf-deployment
+  name: amf
   namespace: default
   labels:
     app: amf
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: amf
-          image: ghcr.io/henricson/amf:v0.0.26
+          image: ghcr.io/henricson/amf:v0.0.27
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -27,7 +27,7 @@ spec:
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: nrf-deployment
+  name: nrf
   namespace: default
   labels:
     app: nrf
@@ -43,7 +43,137 @@ spec:
     spec:
       containers:
         - name: nrf
-          image: ghcr.io/henricson/nrf:v0.0.26
+          image: ghcr.io/henricson/nrf:v0.0.27
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ausf
+  namespace: default
+  labels:
+    app: ausf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ausf
+  template:
+    metadata:
+      labels:
+        app: ausf
+    spec:
+      containers:
+        - name: ausf
+          image: ghcr.io/henricson/ausf:v0.0.27
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: pcf
+  namespace: default
+  labels:
+    app: pcf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pcf
+  template:
+    metadata:
+      labels:
+        app: pcf
+    spec:
+      containers:
+        - name: pcf
+          image: ghcr.io/henricson/pcf:v0.0.27
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: smf
+  namespace: default
+  labels:
+    app: smf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smf
+  template:
+    metadata:
+      labels:
+        app: smf
+    spec:
+      containers:
+        - name: smf
+          image: ghcr.io/henricson/smf:v0.0.27
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: udm
+  namespace: default
+  labels:
+    app: udm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udm
+  template:
+    metadata:
+      labels:
+        app: udm
+    spec:
+      containers:
+        - name: udm
+          image: ghcr.io/henricson/udm:v0.0.27
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: upf
+  namespace: default
+  labels:
+    app: upf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upf
+  template:
+    metadata:
+      labels:
+        app: upf
+    spec:
+      containers:
+        - name: upf
+          image: ghcr.io/henricson/upf:v0.0.27
           ports:
             - containerPort: 80
       imagePullSecrets:
