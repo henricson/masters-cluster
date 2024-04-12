@@ -1,4 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import socketserver
+import requests
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
@@ -9,25 +11,31 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         print(f"Request path: {path}")
 
         # Depending on the path, the behavior changes
-        if path == '/discover_ausf':
-            self.handle_discover_ausf()
-        elif path == '/discover_udm':
-            self.handle_discover_udm()
-        elif path == '/discover_pcf':
-            self.handle_discover_pcf()
+        if path == '/slice-selection-get':
+            self.handle_slice_selection_get()
+        elif path == '/am-subscription-get':
+            self.handle_am_subscription_get()
+        elif path == '/sm-subscription-get':
+            self.handle_sm_subscription_get()
+        elif path == '/sdm-subscription':
+            self.handle_sdm_subscription()
         else:
             # Default handling for other paths
             self.handle_default()
 
-    def handle_discover_ausf(self):
+    def handle_slice_selection_get(self):
         self.send_response(200)
         self.end_headers()
 
-    def handle_discover_udm(self):
+    def handle_am_subscription_get(self):
+        self.send_response(200)
+        self.end_headers()
+
+    def handle_sm_subscription_get(self):
         self.send_response(200)
         self.end_headers()
     
-    def handle_discover_pcf(self):
+    def handle_sdm_subscription(self):
         self.send_response(200)
         self.end_headers()
 

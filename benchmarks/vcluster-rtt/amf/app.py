@@ -35,7 +35,19 @@ def measure_requests(urls, repetitions=5):
     print(f"Standard deviation of total time: {std_dev_time:.2f} ms")
 
 # List of URLs to request
-urls = ["http://nrf.default.svc.cluster.local:80"]  # Sequencially call these
+urls = ["http://nrf.default.svc.cluster.local:80/discover-ausf",
+        "http://ausf.default.svc.cluster.local:80/ue-authentication-info",
+        "http://ausf.default.svc.cluster.local:80/5g-aka-confirmation",
+        "http://nrf.default.svc.cluster.local:80/discover-udm",
+        "http://udm.default.svc.cluster.local:80/slice-selection-get",
+        "http://udm.default.svc.cluster.local:80/am-subscription-get",
+        "http://udm.default.svc.cluster.local:80/sm-subscription-get",
+        "http://udm.default.svc.cluster.local:80/sdm-subscription",
+        "http://nrf.default.svc.cluster.local:80/discover-pcf",
+        "http://pcf.default.svc.cluster.local:80/am-policy-control",
+        "http://smf.default.svc.cluster.local:80/create-sm-context",
+        "http://smf.default.svc.cluster.local:80/update-sm-context",
+]  # Sequencially call these
 
 
 # Adjust the number of repetitions as needed

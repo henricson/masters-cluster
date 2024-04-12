@@ -1,4 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import socketserver
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
@@ -9,25 +10,23 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         print(f"Request path: {path}")
 
         # Depending on the path, the behavior changes
-        if path == '/discover_ausf':
-            self.handle_discover_ausf()
-        elif path == '/discover_udm':
-            self.handle_discover_udm()
-        elif path == '/discover_pcf':
-            self.handle_discover_pcf()
+        if path == '/pfcp-sess-est-request':
+            self.handle_pfcp_sess_est_request()
+        elif path == '/pfcp-sess-modify-request':
+            self.handle_pfcp_sess_est_request()
         else:
             # Default handling for other paths
             self.handle_default()
 
-    def handle_discover_ausf(self):
+    def handle_pfcp_sess_est_request(self):
         self.send_response(200)
         self.end_headers()
 
-    def handle_discover_udm(self):
+    def handle_pfcp_sess_modify_request(self):
         self.send_response(200)
         self.end_headers()
-    
-    def handle_discover_pcf(self):
+
+    def handle_sm_subscription_get(self):
         self.send_response(200)
         self.end_headers()
 

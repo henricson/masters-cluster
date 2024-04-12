@@ -19,6 +19,21 @@ jobs:
           - dockerfile: Dockerfile
             context: benchmarks/vcluster-rtt/nrf
             image_name: nrf
+          - dockerfile: Dockerfile
+            context: benchmarks/vcluster-rtt/ausf
+            image_name: ausf
+          - dockerfile: Dockerfile
+            context: benchmarks/vcluster-rtt/pcf
+            image_name: pcf
+          - dockerfile: Dockerfile
+            context: benchmarks/vcluster-rtt/smf
+            image_name: smf
+          - dockerfile: Dockerfile
+            context: benchmarks/vcluster-rtt/udm
+            image_name: udm
+          - dockerfile: Dockerfile
+            context: benchmarks/vcluster-rtt/upf
+            image_name: upf
 
     steps:
       - name: Checkout code

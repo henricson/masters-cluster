@@ -1,4 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import socketserver
+import requests
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
@@ -9,25 +11,23 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         print(f"Request path: {path}")
 
         # Depending on the path, the behavior changes
-        if path == '/discover_ausf':
-            self.handle_discover_ausf()
-        elif path == '/discover_udm':
-            self.handle_discover_udm()
-        elif path == '/discover_pcf':
-            self.handle_discover_pcf()
+        if path == '/ue-authentication-info':
+            self.handle_ue_authentication_info()
+        elif path == '/5g-aka-confirmation':
+            self.handle_aka_confirmation()
         else:
             # Default handling for other paths
             self.handle_default()
 
-    def handle_discover_ausf(self):
+    def handle_ue_authentication_info(self):
+        response = requests.get('http://udm.default.svc.cluster.local:80')
+        print(f"Response from UDM for /path1: {response.status_code}")
+
+        # Send a successful response
         self.send_response(200)
         self.end_headers()
 
-    def handle_discover_udm(self):
-        self.send_response(200)
-        self.end_headers()
-    
-    def handle_discover_pcf(self):
+    def handle_aka_confirmation(self):
         self.send_response(200)
         self.end_headers()
 

@@ -9,25 +9,13 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         print(f"Request path: {path}")
 
         # Depending on the path, the behavior changes
-        if path == '/discover_ausf':
-            self.handle_discover_ausf()
-        elif path == '/discover_udm':
-            self.handle_discover_udm()
-        elif path == '/discover_pcf':
-            self.handle_discover_pcf()
+        if path == '/am-policy-control':
+            self.handle_am_policy_control()
         else:
             # Default handling for other paths
             self.handle_default()
 
-    def handle_discover_ausf(self):
-        self.send_response(200)
-        self.end_headers()
-
-    def handle_discover_udm(self):
-        self.send_response(200)
-        self.end_headers()
-    
-    def handle_discover_pcf(self):
+    def handle_am_policy_control(self):
         self.send_response(200)
         self.end_headers()
 
