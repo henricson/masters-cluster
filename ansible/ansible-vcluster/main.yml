@@ -23,29 +23,46 @@
         state: absent
 
   tasks:
-    - name: Create a my-virtual-cluster and log output
-      ansible.builtin.shell: "vcluster create test > /tmp/vcluster_output.log 2>&1"
+    - name: Create multiple vClusters
+      ansible.builtin.shell: "vcluster create {{ item }} > /tmp/{{ item }}_vcluster_output.log 2>&1"
+      loop:
+        - tenant1
+        - tenant2
+        - tenant3
       async: 3600 # Adjust as needed, this is the maximum runtime in seconds
       poll: 0
       register: async_result
 
-    - name: Touch the log file to ensure its existence
+    - name: Ensure log files exist for each vCluster
       ansible.builtin.file:
-        path: /tmp/vcluster_output.log
+        path: "/tmp/{{ item }}_vcluster_output.log"
         state: touch
+      loop:
+        - tenant1
+        - tenant2
+        - tenant3
 
-    - name: Wait for the output to contain a specific string
-      ansible.builtin.shell: "grep 'Forwarding from' /tmp/vcluster_output.log"
+    - name: Wait for each vCluster to be ready
+      ansible.builtin.shell: "grep 'Forwarding from' /tmp/{{ item }}_vcluster_output.log"
+      loop:
+        - tenant1
+        - tenant2
+        - tenant3
       register: grep_result
       until: grep_result.rc == 0
       retries: 30 # Number of retries
       delay: 10 # Delay in seconds between retries
       ignore_errors: yes
-      
-    - name: Get list of pods
-      ansible.builtin.command: kubectl get ns
+
+    - name: Get list of pods in each namespace
+      ansible.builtin.command: "kubectl get pods -n {{ item }}"
+      loop:
+        - tenant1
+        - tenant2
+        - tenant3
       register: pods_output
 
-    - name: Print the output
+    - name: Print the output for each namespace
       ansible.builtin.debug:
-        msg: "{{ pods_output.stdout_lines }}"
+        msg: "{{ item.stdout_lines }}"
+      loop: "{{ pods_output.results }}"
