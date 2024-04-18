@@ -1,0 +1,13 @@
+- name: Connect to {{ tenant.name }} vcluster
+  ansible.builtin.shell: |
+    vcluster connect {{ tenant.name }} &> /dev/null &
+    sleep 10  # Delay to ensure the port forwarding is ready
+  async: 20
+  poll: 0
+
+- name: Deploy NFs in {{ tenant.name }}
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('file', tenant.manifest) }}"
+    wait: true # Optionally set to true if you need to ensure deployment is complete
+    context: "vcluster_{{ tenant.name }}_vcluster-{{ tenant.name }}_kubernetes-admin@kubernetes" # Adjust if the context is named differently

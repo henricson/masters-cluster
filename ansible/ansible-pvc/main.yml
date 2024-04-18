@@ -30,4 +30,7 @@
       kubernetes.core.k8s:
         state: present
         definition: "{{ lookup('file', 'manifests/storageclass.yaml') }}"
-
+    - name: Create Storageclass
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', 'manifests/toolbox.yaml') }}"

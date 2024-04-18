@@ -24,7 +24,7 @@
 
   tasks:
     - name: Create multiple vClusters
-      ansible.builtin.shell: "vcluster create {{ item }} > /tmp/{{ item }}_vcluster_output.log 2>&1"
+      ansible.builtin.shell: "vcluster create {{ item }} --connect=false > /tmp/{{ item }}_vcluster_output.log 2>&1"
       loop:
         - tenant1
         - tenant2

@@ -1,0 +1,117 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: nrf
+  namespace: default
+  labels:
+    app: nrf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nrf
+  template:
+    metadata:
+      labels:
+        app: nrf
+    spec:
+      containers:
+        - name: nrf
+          image: ghcr.io/henricson/nrf:v0.0.31
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nrf
+  namespace: default
+spec:
+  selector:
+    app: nrf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: pcf
+  namespace: default
+  labels:
+    app: pcf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pcf
+  template:
+    metadata:
+      labels:
+        app: pcf
+    spec:
+      containers:
+        - name: pcf
+          image: ghcr.io/henricson/pcf:v0.0.31
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pcf
+  namespace: default
+spec:
+  selector:
+    app: pcf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: smf
+  namespace: default
+  labels:
+    app: smf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smf
+  template:
+    metadata:
+      labels:
+        app: smf
+    spec:
+      containers:
+        - name: smf
+          image: ghcr.io/henricson/smf:v0.0.31
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smf
+  namespace: default
+spec:
+  selector:
+    app: smf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

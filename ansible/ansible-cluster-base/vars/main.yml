@@ -9,3 +9,5 @@ kubernetes_config_kubelet_configuration:
 
 kubernetes_version: 1.29
 kubernetes_allow_pods_on_master: true
+
+kubernetes_join_command_extra_opts: "--ignore-preflight-errors=all"

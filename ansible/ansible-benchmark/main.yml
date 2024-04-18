@@ -2,14 +2,18 @@
 - hosts: kube1
   become: true
 
+  vars:
+    tenants:
+      - name: tenant1
+        manifest: "manifests/tenant1.yml"
+      - name: tenant2
+        manifest: "manifests/tenant2.yml"
+      - name: tenant3
+        manifest: "manifests/tenant3.yml"
+
   tasks:
-    - name: Create AMF, NRF deployment
-      kubernetes.core.k8s:
-        state: present
-        definition: "{{ lookup('file', 'manifests/deployment.yml') }}"
-        wait: false
-    - name: Create AMF, NRF service
-      kubernetes.core.k8s:
-        state: present
-        definition: "{{ lookup('file', 'manifests/service.yml') }}"
-        wait: true
+    - name: Process each tenant sequentially
+      include_tasks: process_tenant.yml
+      loop: "{{ tenants }}"
+      loop_control:
+        loop_var: tenant # Define a custom loop variable to avoid conflicts
