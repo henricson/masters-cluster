@@ -21,9 +21,8 @@
     - name: Create Traefik deployment
       kubernetes.core.k8s:
         state: present
-        definition: "{{ lookup('file', 'manifests/deployment.yml') }}"
+        definition: "{{ lookup('file', 'manifests/02-traefik-services.yml') }}"
     - name: Create Traefik services
       kubernetes.core.k8s:
         state: present
         definition: "{{ lookup('file', 'manifests/02-traefik-services.yml') }}"
-

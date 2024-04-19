@@ -23,8 +23,17 @@
         state: absent
 
   tasks:
+    - name: Copy values.yaml to the server
+      ansible.builtin.copy:
+        src: ./vcluster-config/values-{{ item }}.yaml
+        dest: /tmp/vcluster-values-{{ item }}.yaml
+      loop:
+        - tenant1
+        - tenant2
+        - tenant3
+
     - name: Create multiple vClusters
-      ansible.builtin.shell: "vcluster create {{ item }} --connect=false > /tmp/{{ item }}_vcluster_output.log 2>&1"
+      ansible.builtin.shell: "vcluster create {{ item }} --connect=false --upgrade -f /tmp/vcluster-values-{{ item }}.yaml > /tmp/{{ item }}_vcluster_output.log 2>&1"
       loop:
         - tenant1
         - tenant2
@@ -41,18 +50,6 @@
         - tenant1
         - tenant2
         - tenant3
-
-    - name: Wait for each vCluster to be ready
-      ansible.builtin.shell: "grep 'Forwarding from' /tmp/{{ item }}_vcluster_output.log"
-      loop:
-        - tenant1
-        - tenant2
-        - tenant3
-      register: grep_result
-      until: grep_result.rc == 0
-      retries: 30 # Number of retries
-      delay: 10 # Delay in seconds between retries
-      ignore_errors: yes
 
     - name: Get list of pods in each namespace
       ansible.builtin.command: "kubectl get pods -n {{ item }}"
