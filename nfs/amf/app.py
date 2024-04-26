@@ -60,7 +60,7 @@ def main():
         f"http://{os.environ.get('PCF_HOST', 'pcf.default.svc.cluster.local')}:80/am-policy-control",
         f"http://{os.environ.get('SMF_HOST', 'smf.default.svc.cluster.local')}:80/create-sm-context",
         f"http://{os.environ.get('SMF_HOST', 'smf.default.svc.cluster.local')}:80/update-sm-context",
-    ]
+    ]   
     while True:
         print("\nWelcome to the Interactive Request Timing CLI")
         print("1: Run measurements")

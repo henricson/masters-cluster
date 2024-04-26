@@ -9,17 +9,19 @@
         node: kube-1
       - name: tenant2
         manifest: "tenant2.yml"
-        node: kube-1
+        node: kube-2
       - name: tenant3
         manifest: "tenant3.yml"
-        node: kube-1
+        node: kube-3
 
   tasks:
-    - name: Deploy pull secret cluster
-      kubernetes.core.k8s:
-        state: present
-        definition: "{{ lookup('file', '../pull-secret.yml') }}"
-        wait: true # Optionally set to true if you need to ensure deployment is complete
+    - name: Render the pull secret
+      template:
+        src: "../pull-secret.yml.j2"
+        dest: "/tmp/{{ tenant.name }}-pull-secret.yml"
+      loop: "{{ tenants }}"
+      loop_control:
+        loop_var: tenant # Define a custom loop variable to avoid conflicts
 
     - name: Create the HRC namespaces
       template:
@@ -47,6 +49,15 @@
         state: present
         src: "/tmp/namespaces.yml"
         wait: false # Optionally set to true if you need to ensure deployment is complete
+
+    - name: Deploy Pull Secrets in the tenants namespaces
+      kubernetes.core.k8s:
+        state: present
+        src: "/tmp/{{ tenant.name }}-pull-secret.yml"
+        wait: false # Optionally set to true if you need to ensure deployment is complete
+      loop: "{{ tenants }}"
+      loop_control:
+        loop_var: tenant # Define a custom loop variable to avoid conflicts
 
     - name: Deploy NFs in the tenants
       kubernetes.core.k8s:

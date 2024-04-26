@@ -9,10 +9,10 @@
         node: kube-1
       - name: tenant2
         manifest: "tenant2.yml"
-        node: kube-1
+        node: kube-2
       - name: tenant3
         manifest: "tenant3.yml"
-        node: kube-1
+        node: kube-3
 
   tasks:
     - name: Process each tenant sequentially
