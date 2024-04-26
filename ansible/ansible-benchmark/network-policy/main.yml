@@ -5,11 +5,14 @@
   vars:
     tenants:
       - name: tenant1
-        manifest: "manifests/tenant1.yml"
+        manifest: "tenant1.yml"
+        node: kube-1
       - name: tenant2
-        manifest: "manifests/tenant2.yml"
+        manifest: "tenant2.yml"
+        node: kube-2
       - name: tenant3
-        manifest: "manifests/tenant3.yml"
+        manifest: "tenant3.yml"
+        node: kube-3
 
   tasks:
     - name: Process each tenant sequentially

@@ -2,23 +2,25 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: nrf
+  name: amf
   namespace: default
   labels:
-    app: nrf
+    app: amf
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nrf
+      app: amf
   template:
     metadata:
       labels:
-        app: nrf
+        app: amf
     spec:
       containers:
-        - name: nrf
-          image: ghcr.io/henricson/nrf:v0.0.31
+        - name: amf
+          image: ghcr.io/henricson/amf:v0.0.32
+          stdin: true
+          tty: true
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -31,16 +33,16 @@ spec:
                   - key: kubernetes.io/hostname
                     operator: In
                     values:
-                      - kube-2
+                      - "{{ tenant.node }}"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nrf
+  name: amf
   namespace: default
 spec:
   selector:
-    app: nrf
+    app: amf
   ports:
     - protocol: TCP
       port: 80
@@ -49,23 +51,23 @@ spec:
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: pcf
+  name: upf
   namespace: default
   labels:
-    app: pcf
+    app: upf
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pcf
+      app: upf
   template:
     metadata:
       labels:
-        app: pcf
+        app: upf
     spec:
       containers:
-        - name: pcf
-          image: ghcr.io/henricson/pcf:v0.0.31
+        - name: upf
+          image: ghcr.io/henricson/upf:v0.0.32
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -78,63 +80,16 @@ spec:
                   - key: kubernetes.io/hostname
                     operator: In
                     values:
-                      - kube-2
+                      - "{{ tenant.node }}"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: pcf
+  name: upf
   namespace: default
 spec:
   selector:
-    app: pcf
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
----
-kind: Deployment
-apiVersion: apps/v1
-metadata:
-  name: smf
-  namespace: default
-  labels:
-    app: smf
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: smf
-  template:
-    metadata:
-      labels:
-        app: smf
-    spec:
-      containers:
-        - name: smf
-          image: ghcr.io/henricson/smf:v0.0.31
-          ports:
-            - containerPort: 80
-      imagePullSecrets:
-        - name: github-actions
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - kube-2
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: smf
-  namespace: default
-spec:
-  selector:
-    app: smf
+    app: upf
   ports:
     - protocol: TCP
       port: 80

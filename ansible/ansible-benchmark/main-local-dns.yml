@@ -1,0 +1,42 @@
+---
+- hosts: kube1
+  become: true
+
+  tasks:
+    - name: "Create localDNS"
+      ansible.builtin.copy:
+        src: node-local-dns.yml
+        dest: /tmp/node-local-dns.yml
+
+    - name: Obtain kube-dns service IP
+      ansible.builtin.command: kubectl get svc kube-dns -n kube-system -o jsonpath={.spec.clusterIP}
+      register: kube_dns_ip
+      changed_when: false # This tells Ansible that this task does not change the state of the system
+
+    - name: Set kubedns variable
+      ansible.builtin.set_fact:
+        kubedns: "{{ kube_dns_ip.stdout }}"
+
+    - name: Set domain variable
+      ansible.builtin.set_fact:
+        domain: "cluster.local" # Replace <cluster-domain> with your cluster's domain
+
+    - name: Set localdns variable
+      ansible.builtin.set_fact:
+        localdns: "10.0.0.216" # Replace <node-local-address> with your node's local address
+
+    - name: Update nodelocaldns configuration
+      ansible.builtin.replace:
+        path: /tmp/node-local-dns.yml
+        regexp: "{{ item.regexp }}"
+        replace: "{{ item.replace }}"
+      loop:
+        - { regexp: "__PILLAR__LOCAL__DNS__", replace: "{{ localdns }}" }
+        - { regexp: "__PILLAR__DNS__DOMAIN__", replace: "{{ domain }}" }
+        - { regexp: "__PILLAR__DNS__SERVER__", replace: "{{ kubedns }}" }
+
+    - name: Deploy DNS chaching
+      kubernetes.core.k8s:
+        state: present
+        src: /tmp/node-local-dns.yml
+        wait: false # Optionally set to true if you need to ensure deployment is complete

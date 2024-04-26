@@ -8,14 +8,19 @@
 - name: Deploy pull secret in {{ tenant.name }}
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('file', 'manifests/pull-secret.yml') }}"
+    definition: "{{ lookup('file', '../pull-secret.yml') }}"
     wait: true # Optionally set to true if you need to ensure deployment is complete
     context: "vcluster_{{ tenant.name }}_vcluster-{{ tenant.name }}_kubernetes-admin@kubernetes" # Adjust if the context is named differently
+
+- name: Render the Kubernetes pull secret manifest
+  template:
+    src: "{{ tenant.name }}.yml.j2"
+    dest: /tmp/{{ tenant.name }}.yml
 
 - name: Deploy NFs in {{ tenant.name }}
   kubernetes.core.k8s:
     state: present
-    definition: "{{ lookup('file', tenant.manifest) }}"
+    src: /tmp/{{ tenant.name }}.yml
     wait: false # Optionally set to true if you need to ensure deployment is complete
     context: "vcluster_{{ tenant.name }}_vcluster-{{ tenant.name }}_kubernetes-admin@kubernetes" # Adjust if the context is named differently
 

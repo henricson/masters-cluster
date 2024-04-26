@@ -1,0 +1,22 @@
+---
+- hosts: kube1
+  become: true
+
+  vars:
+    tenants:
+      - name: tenant1
+        manifest: "tenant1.yml"
+        node: kube-2
+      - name: tenant2
+        manifest: "tenant2.yml"
+        node: kube-2
+      - name: tenant3
+        manifest: "tenant3.yml"
+        node: kube-2
+
+  tasks:
+    - name: Process each tenant sequentially
+      include_tasks: process_tenant.yml
+      loop: "{{ tenants }}"
+      loop_control:
+        loop_var: tenant # Define a custom loop variable to avoid conflicts

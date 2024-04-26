@@ -1,0 +1,78 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: amf
+  namespace: default
+  labels:
+    app: amf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: amf
+  template:
+    metadata:
+      labels:
+        app: amf
+    spec:
+      containers:
+        - name: amf
+          image: ghcr.io/henricson/amf:v0.0.32
+          stdin: true
+          tty: true
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: amf
+  namespace: default
+spec:
+  selector:
+    app: amf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: upf
+  namespace: default
+  labels:
+    app: upf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upf
+  template:
+    metadata:
+      labels:
+        app: upf
+    spec:
+      containers:
+        - name: upf
+          image: ghcr.io/henricson/upf:v0.0.32
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: upf
+  namespace: default
+spec:
+  selector:
+    app: upf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

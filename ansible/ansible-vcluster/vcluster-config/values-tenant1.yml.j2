@@ -3,19 +3,19 @@ sync:
     enabled: true
   nodes:
     enabled: true
-    syncAllNodes: true
+    nodeSelector: "kubernetes.io/hostname={{tenant.node}}"
 
 mapServices:
   fromVirtual:
-    - from: default/nrf
-      to: nrf
-    - from: default/pcf
-      to: pcf
-    - from: default/smf
-      to: smf
+    - from: default/udm
+      to: udm
+    - from: default/ausf
+      to: ausf
   fromHost:
-    - from: vcluster-tenant2/upf
-      to: default/upf
+    - from: vcluster-tenant3/smf
+      to: default/smf
+    - from: vcluster-tenant3/nrf
+      to: default/nrf
 
 isolation:
   enabled: true
@@ -66,7 +66,3 @@ isolation:
           - 10.0.0.0/8
           - 172.16.0.0/12
           - 192.168.0.0/16
-
-syncer:
-  extraArgs:
-    - --node-selector=kubernetes.io/hostname=kube-2

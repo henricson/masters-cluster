@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: udm
-          image: ghcr.io/henricson/udm:v0.0.31
+          image: ghcr.io/henricson/udm:v0.0.32
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -31,7 +31,7 @@ spec:
                   - key: kubernetes.io/hostname
                     operator: In
                     values:
-                      - kube-2
+                      - "{{ tenant.node }}"
 ---
 apiVersion: v1
 kind: Service
@@ -65,7 +65,7 @@ spec:
     spec:
       containers:
         - name: ausf
-          image: ghcr.io/henricson/ausf:v0.0.31
+          image: ghcr.io/henricson/ausf:v0.0.32
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -78,7 +78,7 @@ spec:
                   - key: kubernetes.io/hostname
                     operator: In
                     values:
-                      - kube-2
+                      - "{{ tenant.node }}"
 ---
 apiVersion: v1
 kind: Service

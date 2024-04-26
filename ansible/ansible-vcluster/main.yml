@@ -3,6 +3,15 @@
   become: true
   hosts: kube1
 
+  vars:
+    tenants:
+      - name: tenant1
+        node: kube-2
+      - name: tenant2
+        node: kube-2
+      - name: tenant3
+        node: kube-2
+
   pre_tasks:
     - name: Download vcluster binary
       ansible.builtin.get_url:
@@ -24,16 +33,15 @@
 
   tasks:
     - name: Copy values.yaml to the server
-      ansible.builtin.copy:
-        src: ./vcluster-config/values-{{ item }}.yaml
-        dest: /tmp/vcluster-values-{{ item }}.yaml
-      loop:
-        - tenant1
-        - tenant2
-        - tenant3
+      template:
+        src: ./vcluster-config/values-{{ tenant.name }}.yml.j2
+        dest: /tmp/vcluster-values-{{ tenant.name }}.yml
+      loop: "{{ tenants }}"
+      loop_control:
+        loop_var: tenant # Define a custom loop variable to avoid conflicts
 
     - name: Create multiple vClusters
-      ansible.builtin.shell: "vcluster create {{ item }} --connect=false --upgrade -f /tmp/vcluster-values-{{ item }}.yaml > /tmp/{{ item }}_vcluster_output.log 2>&1"
+      ansible.builtin.shell: "vcluster create {{ item }} --connect=false --upgrade -f /tmp/vcluster-values-{{ item }}.yml > /tmp/{{ item }}_vcluster_output.log 2>&1"
       loop:
         - tenant1
         - tenant2

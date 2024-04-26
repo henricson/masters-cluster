@@ -3,7 +3,7 @@ sync:
     enabled: true
   nodes:
     enabled: true
-    syncAllNodes: true
+    nodeSelector: "kubernetes.io/hostname={{tenant.node}}"
 
 mapServices:
   fromVirtual:
