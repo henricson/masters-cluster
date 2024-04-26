@@ -1,0 +1,94 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: udm
+  namespace: tenant1
+  labels:
+    app: udm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udm
+  template:
+    metadata:
+      labels:
+        app: udm
+    spec:
+      containers:
+        - name: udm
+          image: ghcr.io/henricson/udm:v0.0.32
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - "{{ tenant.node }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: udm
+  namespace: tenant2
+spec:
+  selector:
+    app: udm
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ausf
+  namespace: tenant1
+  labels:
+    app: ausf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ausf
+  template:
+    metadata:
+      labels:
+        app: ausf
+    spec:
+      containers:
+        - name: ausf
+          image: ghcr.io/henricson/ausf:v0.0.32
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: github-actions
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - "{{ tenant.node }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ausf
+  namespace: tenant1
+spec:
+  selector:
+    app: ausf
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

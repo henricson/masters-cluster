@@ -1,0 +1,54 @@
+---
+- hosts: kube1
+  become: true
+
+  vars:
+    tenants:
+      - name: tenant1
+        manifest: "tenant1.yml"
+        node: kube-1
+      - name: tenant2
+        manifest: "tenant2.yml"
+        node: kube-1
+      - name: tenant3
+        manifest: "tenant3.yml"
+        node: kube-1
+    hnc_version: "v1.1.0"
+    hnc_variant: "default"
+    hnc_yaml_url: "https://github.com/kubernetes-sigs/hierarchical-namespaces/releases/download/{{ hnc_version }}/{{ hnc_variant }}.yaml"
+    hnc_platform: "linux_amd64"
+
+  tasks:
+    - name: Download HNC YAML
+      uri:
+        url: "{{ hnc_yaml_url }}"
+        method: GET
+        return_content: yes
+      register: hnc_yaml
+
+    - name: Apply HNC YAML
+      k8s:
+        state: present
+        definition: "{{ hnc_yaml.content }}"
+        wait: yes
+        wait_timeout: 30
+
+    - name: Download kubectl-hns plugin
+      get_url:
+        url: "https://github.com/kubernetes-sigs/hierarchical-namespaces/releases/download/{{ hnc_version }}/kubectl-hns_{{ hnc_platform }}"
+        dest: "/bin/kubectl-hns"
+        mode: "0755"
+
+    - name: Ensure kubectl-hns is executable
+      file:
+        path: "/bin/kubectl-hns"
+        mode: "0755"
+        state: file
+
+    - name: Verify kubectl-hns plugin
+      command: "/bin/kubectl-hns"
+      register: hns_output
+
+    - name: Show output of kubectl-hns command
+      debug:
+        msg: "{{ hns_output.stdout }}"
