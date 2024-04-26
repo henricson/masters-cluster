@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import socketserver
 import requests
+import os
 
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
@@ -20,7 +21,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             self.handle_default()
 
     def handle_ue_authentication_info(self):
-        response = requests.get('http://udm.default.svc.cluster.local:80')
+        domain = os.environ.get('UDM_HOST', 'udm.default.svc.cluster.local')
+        response = requests.get(f'http://{domain}:80')
         print(f"Response from UDM for /path1: {response.status_code}")
 
         # Send a successful response

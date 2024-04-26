@@ -23,6 +23,9 @@ spec:
           tty: true
           ports:
             - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: service-domains
       imagePullSecrets:
         - name: github-actions
       affinity:

@@ -115,6 +115,9 @@ spec:
           image: ghcr.io/henricson/smf:v0.0.32
           ports:
             - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: service-domains
       imagePullSecrets:
         - name: github-actions
       affinity:

@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import requests
+import os
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
@@ -19,14 +20,16 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def handle_create_sm_context(self):
 
-        requests.get('http://upf.default.svc.cluster.local:80/pfcp-sess-est-request')
+        domain = os.environ.get('UPF_HOST')
+        requests.get(f'http://{domain}/pfcp-sess-est-request')
 
         self.send_response(200)
         self.end_headers()
 
     def handle_update_sm_context(self):
 
-        requests.get('http://upf.default.svc.cluster.local:80/pfcp-sess-modify-request')
+        domain = os.environ.get('UPF_HOST')
+        requests.get(f'http://{domain}/pfcp-sess-modify-request')
 
         self.send_response(200)
         self.end_headers()

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service-domains
+  namespace: "{{tenant.name}}"
+data:
+  NRF_HOST: "nrf.tenant3.svc.cluster.local"
+  AUSF_HOST: "ausf.tenant1.svc.cluster.local"
+  UDM_HOST: "udm.tenant1.svc.cluster.local"
+  PCF_HOST: "pcf.tenant3.svc.cluster.local"
+  SMF_HOST: "smf.tenant3.svc.cluster.local"
+  UPF_HOST: "upf.tenant2.svc.cluster.local"

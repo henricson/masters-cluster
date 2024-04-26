@@ -37,7 +37,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: udm
-  namespace: tenant2
+  namespace: tenant1
 spec:
   selector:
     app: udm
@@ -68,6 +68,9 @@ spec:
           image: ghcr.io/henricson/ausf:v0.0.32
           ports:
             - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: service-domains
       imagePullSecrets:
         - name: github-actions
       affinity:

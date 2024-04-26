@@ -2,6 +2,7 @@ import requests
 import time
 import numpy as np
 from scipy.stats import t
+import os
 
 def measure_request_time(url):
     start_time = time.time()
@@ -47,18 +48,18 @@ def measure_requests(urls, repetitions=5):
 
 def main():
     urls = [
-        "http://nrf.default.svc.cluster.local:80/discover-ausf",
-        "http://ausf.default.svc.cluster.local:80/ue-authentication-info",
-        "http://ausf.default.svc.cluster.local:80/5g-aka-confirmation",
-        "http://nrf.default.svc.cluster.local:80/discover-udm",
-        "http://udm.default.svc.cluster.local:80/slice-selection-get",
-        "http://udm.default.svc.cluster.local:80/am-subscription-get",
-        "http://udm.default.svc.cluster.local:80/sm-subscription-get",
-        "http://udm.default.svc.cluster.local:80/sdm-subscription",
-        "http://nrf.default.svc.cluster.local:80/discover-pcf",
-        "http://pcf.default.svc.cluster.local:80/am-policy-control",
-        "http://smf.default.svc.cluster.local:80/create-sm-context",
-        "http://smf.default.svc.cluster.local:80/update-sm-context",
+        f"http://{os.environ.get('NRF_HOST', 'nrf.default.svc.cluster.local')}:80/discover-ausf",
+        f"http://{os.environ.get('AUSF_HOST', 'ausf.default.svc.cluster.local')}:80/ue-authentication-info",
+        f"http://{os.environ.get('AUSF_HOST', 'ausf.default.svc.cluster.local')}:80/5g-aka-confirmation",
+        f"http://{os.environ.get('NRF_HOST', 'nrf.default.svc.cluster.local')}:80/discover-udm",
+        f"http://{os.environ.get('UDM_HOST', 'udm.default.svc.cluster.local')}:80/slice-selection-get",
+        f"http://{os.environ.get('UDM_HOST', 'udm.default.svc.cluster.local')}:80/am-subscription-get",
+        f"http://{os.environ.get('UDM_HOST', 'udm.default.svc.cluster.local')}:80/sm-subscription-get",
+        f"http://{os.environ.get('UDM_HOST', 'udm.default.svc.cluster.local')}:80/sdm-subscription",
+        f"http://{os.environ.get('NRF_HOST', 'nrf.default.svc.cluster.local')}:80/discover-pcf",
+        f"http://{os.environ.get('PCF_HOST', 'pcf.default.svc.cluster.local')}:80/am-policy-control",
+        f"http://{os.environ.get('SMF_HOST', 'smf.default.svc.cluster.local')}:80/create-sm-context",
+        f"http://{os.environ.get('SMF_HOST', 'smf.default.svc.cluster.local')}:80/update-sm-context",
     ]
     while True:
         print("\nWelcome to the Interactive Request Timing CLI")
