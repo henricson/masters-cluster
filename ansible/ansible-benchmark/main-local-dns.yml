@@ -23,7 +23,7 @@
 
     - name: Set localdns variable
       ansible.builtin.set_fact:
-        localdns: "10.0.0.216" # Replace <node-local-address> with your node's local address
+        localdns: "169.254.0.1" # Replace <node-local-address> with your node's local address
 
     - name: Update nodelocaldns configuration
       ansible.builtin.replace:

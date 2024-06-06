@@ -8,9 +8,9 @@
       - name: tenant1
         node: kube-1
       - name: tenant2
-        node: kube-2
+        node: kube-1
       - name: tenant3
-        node: kube-3
+        node: kube-1
 
   pre_tasks:
     - name: Download vcluster binary

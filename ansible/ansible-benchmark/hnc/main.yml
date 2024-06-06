@@ -9,10 +9,10 @@
         node: kube-1
       - name: tenant2
         manifest: "tenant2.yml"
-        node: kube-2
+        node: kube-1
       - name: tenant3
         manifest: "tenant3.yml"
-        node: kube-3
+        node: kube-1
 
   tasks:
     - name: Render the pull secret
@@ -58,7 +58,14 @@
       loop: "{{ tenants }}"
       loop_control:
         loop_var: tenant # Define a custom loop variable to avoid conflicts
-
+    - name: Deploy ConfigMaps in the tenants
+      kubernetes.core.k8s:
+        state: present
+        src: "/tmp/{{ tenant.name }}-configmap.yml"
+        wait: false # Optionally set to true if you need to ensure deployment is complete
+      loop: "{{ tenants }}"
+      loop_control:
+        loop_var: tenant # Define a custom loop variable to avoid conflicts
     - name: Deploy NFs in the tenants
       kubernetes.core.k8s:
         state: present
@@ -68,11 +75,3 @@
       loop_control:
         loop_var: tenant # Define a custom loop variable to avoid conflicts
 
-    - name: Deploy ConfigMaps in the tenants
-      kubernetes.core.k8s:
-        state: present
-        src: "/tmp/{{ tenant.name }}-configmap.yml"
-        wait: false # Optionally set to true if you need to ensure deployment is complete
-      loop: "{{ tenants }}"
-      loop_control:
-        loop_var: tenant # Define a custom loop variable to avoid conflicts
